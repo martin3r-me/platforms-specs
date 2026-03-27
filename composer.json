@@ -1,0 +1,27 @@
+{
+    "name": "martin3r/platforms-specs",
+    "description": "Specs Module - Lasten- und Pflichtenhefte for Platform",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Platform Team",
+            "email": "team@platform.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Platform\\Specs\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Platform\\Specs\\SpecsServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

@@ -1,0 +1,3 @@
+<div>
+    {{-- Specs Sidebar --}}
+</div>
