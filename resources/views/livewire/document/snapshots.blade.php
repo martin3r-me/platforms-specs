@@ -54,7 +54,7 @@
             @if($snapshots->count() >= 2)
                 <x-ui-panel title="Versionen vergleichen">
                     <div class="flex items-center gap-3">
-                        <x-ui-input-select wire:model="compareFrom">
+                        <x-ui-input-select name="compareFrom" wire:model="compareFrom">
                             <option value="">Von...</option>
                             @foreach($snapshots as $snap)
                                 <option value="{{ $snap->id }}">Version {{ $snap->version }} ({{ $snap->created_at?->format('d.m.Y H:i') }})</option>
@@ -63,7 +63,7 @@
 
                         @svg('heroicon-o-arrow-right', 'w-5 h-5 text-[var(--ui-muted)] flex-shrink-0')
 
-                        <x-ui-input-select wire:model="compareTo">
+                        <x-ui-input-select name="compareTo" wire:model="compareTo">
                             <option value="">Bis...</option>
                             @foreach($snapshots as $snap)
                                 <option value="{{ $snap->id }}">Version {{ $snap->version }} ({{ $snap->created_at?->format('d.m.Y H:i') }})</option>

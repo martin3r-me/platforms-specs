@@ -11,21 +11,21 @@
             ['label' => 'Anforderungen'],
         ]">
             <x-slot name="left">
-                <x-ui-input-select wire:model.live="typeFilter" class="!h-7 !text-xs !py-0">
+                <x-ui-input-select name="typeFilter" wire:model.live="typeFilter" class="!h-7 !text-xs !py-0">
                     <option value="">Alle Typen</option>
                     @foreach(\Platform\Specs\Models\SpecsRequirement::TYPES as $type)
                         <option value="{{ $type }}">{{ \Platform\Specs\Models\SpecsRequirement::TYPE_LABELS[$type] ?? $type }}</option>
                     @endforeach
                 </x-ui-input-select>
 
-                <x-ui-input-select wire:model.live="priorityFilter" class="!h-7 !text-xs !py-0">
+                <x-ui-input-select name="priorityFilter" wire:model.live="priorityFilter" class="!h-7 !text-xs !py-0">
                     <option value="">Alle Prioritaeten</option>
                     @foreach(\Platform\Specs\Models\SpecsRequirement::PRIORITIES as $p)
                         <option value="{{ $p }}">{{ \Platform\Specs\Models\SpecsRequirement::PRIORITY_LABELS[$p] ?? $p }}</option>
                     @endforeach
                 </x-ui-input-select>
 
-                <x-ui-input-select wire:model.live="statusFilter" class="!h-7 !text-xs !py-0">
+                <x-ui-input-select name="statusFilter" wire:model.live="statusFilter" class="!h-7 !text-xs !py-0">
                     <option value="">Alle Status</option>
                     @foreach(\Platform\Specs\Models\SpecsRequirement::STATUSES as $s)
                         <option value="{{ $s }}">{{ \Platform\Specs\Models\SpecsRequirement::STATUS_LABELS[$s] ?? $s }}</option>

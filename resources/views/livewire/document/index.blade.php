@@ -9,14 +9,14 @@
             ['label' => 'Dokumente'],
         ]">
             <x-slot name="left">
-                <x-ui-input-select wire:model.live="typeFilter" class="!h-7 !text-xs !py-0">
+                <x-ui-input-select name="typeFilter" wire:model.live="typeFilter" class="!h-7 !text-xs !py-0">
                     <option value="">Alle Typen</option>
                     @foreach(\Platform\Specs\Models\SpecsDocument::DOCUMENT_TYPES as $type)
                         <option value="{{ $type }}">{{ \Platform\Specs\Models\SpecsDocument::TYPE_LABELS[$type] }}</option>
                     @endforeach
                 </x-ui-input-select>
 
-                <x-ui-input-select wire:model.live="statusFilter" class="!h-7 !text-xs !py-0">
+                <x-ui-input-select name="statusFilter" wire:model.live="statusFilter" class="!h-7 !text-xs !py-0">
                     <option value="">Alle Status</option>
                     @foreach(\Platform\Specs\Models\SpecsDocument::STATUSES as $status)
                         <option value="{{ $status }}">{{ \Platform\Specs\Models\SpecsDocument::STATUS_LABELS[$status] }}</option>
