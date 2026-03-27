@@ -24,8 +24,11 @@ class Show extends Component
             'comments.replies',
         ]);
 
+        $requirementCount = $this->document->sections->sum(fn ($s) => $s->requirements->count());
+
         return view('specs::livewire.document.show', [
             'document' => $this->document,
+            'requirementCount' => $requirementCount,
         ])->layout('platform::layouts.app');
     }
 }

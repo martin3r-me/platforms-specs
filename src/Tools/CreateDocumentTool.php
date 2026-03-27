@@ -34,6 +34,7 @@ class CreateDocumentTool implements ToolContract, ToolMetadataContract
                 'status' => ['type' => 'string', 'enum' => SpecsDocument::STATUSES, 'description' => 'Optional: Status. Default: backlog.'],
                 'linked_document_id' => ['type' => 'integer', 'description' => 'Optional: ID eines verknuepften Dokuments (z.B. Lastenheft zu Pflichtenheft).'],
                 'prefix' => ['type' => 'string', 'description' => 'Optional: Prefix fuer Requirement-IDs. Default: LH oder PH je nach Typ.'],
+                'entity_id' => ['type' => 'integer', 'description' => 'Optional: ID einer Organisations-Entity, mit der das Dokument verknuepft werden soll. Nutze "organization.entities.GET" um Entity-IDs zu finden.'],
             ],
             'required' => ['name', 'document_type'],
         ]);
@@ -71,6 +72,20 @@ class CreateDocumentTool implements ToolContract, ToolMetadataContract
                 'team_id' => $teamId,
                 'created_by_user_id' => $context->user->id,
             ]);
+
+            // Entity-Link erstellen (falls entity_id angegeben)
+            if (!empty($arguments['entity_id'])) {
+                $entity = \Platform\Organization\Models\OrganizationEntity::find($arguments['entity_id']);
+                if ($entity) {
+                    \Platform\Organization\Models\OrganizationEntityLink::create([
+                        'entity_id' => $entity->id,
+                        'linkable_type' => 'specs_document',
+                        'linkable_id' => $doc->id,
+                        'team_id' => $teamId,
+                        'created_by_user_id' => $context->user->id,
+                    ]);
+                }
+            }
 
             return ToolResult::success([
                 'id' => $doc->id,

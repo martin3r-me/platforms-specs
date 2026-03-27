@@ -2,6 +2,7 @@
 
 namespace Platform\Specs;
 
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
@@ -20,6 +21,11 @@ class SpecsServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        // Morph-Map für Entity-Links
+        Relation::morphMap([
+            'specs_document' => \Platform\Specs\Models\SpecsDocument::class,
+        ]);
+
         // Step 1: Load config
         $this->mergeConfigFrom(__DIR__ . '/../config/specs.php', 'specs');
 

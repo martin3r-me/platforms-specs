@@ -1,7 +1,7 @@
 @if($requirements->count() > 0)
     <div class="space-y-2">
         @foreach($requirements as $req)
-            <div class="bg-[var(--ui-muted-5)] rounded-lg p-3">
+            <div class="bg-gray-50 rounded-lg p-3">
                 <div class="flex justify-between items-start gap-3">
                     <div class="flex-1 min-w-0">
                         <div class="flex items-center gap-2">
@@ -9,34 +9,22 @@
                             <span class="font-semibold">{{ $req->title }}</span>
                         </div>
                         @if($req->content)
-                            <p class="text-[var(--ui-muted)] text-sm mt-1">{{ $req->content }}</p>
+                            <p class="text-gray-500 text-sm mt-1">{{ $req->content }}</p>
                         @endif
 
-                        {{-- Metadata fuer User Stories --}}
                         @if($req->requirement_type === 'user_story' && $req->metadata)
-                            <div class="text-sm mt-1 text-[var(--ui-muted)]">
+                            <div class="text-sm mt-1 text-gray-500">
                                 Als <strong>{{ $req->metadata['role'] ?? '...' }}</strong>
                                 moechte ich <strong>{{ $req->metadata['goal'] ?? '...' }}</strong>,
                                 damit <strong>{{ $req->metadata['benefit'] ?? '...' }}</strong>.
                             </div>
                         @endif
 
-                        {{-- Acceptance Criteria --}}
                         @if($req->acceptanceCriteria->count() > 0)
                             <div class="mt-2 space-y-1">
-                                <div class="text-xs font-semibold text-[var(--ui-muted)]">Abnahmekriterien:</div>
+                                <div class="text-xs font-semibold text-gray-500">Abnahmekriterien:</div>
                                 @foreach($req->acceptanceCriteria as $ac)
-                                    <div class="text-sm text-[var(--ui-muted)] ml-2">- {{ $ac->content }}</div>
-                                @endforeach
-                            </div>
-                        @endif
-
-                        {{-- Traces --}}
-                        @if($req->sourceTraces->count() > 0)
-                            <div class="mt-1 text-xs text-[var(--ui-muted)]">
-                                Verknuepft mit:
-                                @foreach($req->sourceTraces as $trace)
-                                    <span class="font-mono">{{ $trace->targetRequirement?->requirement_id }}</span>@if(!$loop->last), @endif
+                                    <div class="text-sm text-gray-500 ml-2">- {{ $ac->content }}</div>
                                 @endforeach
                             </div>
                         @endif
@@ -47,9 +35,6 @@
                         </x-ui-badge>
                         <x-ui-badge variant="secondary">
                             {{ \Platform\Specs\Models\SpecsRequirement::TYPE_LABELS[$req->requirement_type] ?? $req->requirement_type }}
-                        </x-ui-badge>
-                        <x-ui-badge variant="{{ $req->status === 'verified' ? 'success' : ($req->status === 'implemented' ? 'info' : 'secondary') }}">
-                            {{ \Platform\Specs\Models\SpecsRequirement::STATUS_LABELS[$req->status] ?? $req->status }}
                         </x-ui-badge>
                     </div>
                 </div>

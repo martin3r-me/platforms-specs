@@ -33,6 +33,7 @@ class UpdateDocumentTool implements ToolContract, ToolMetadataContract
                 'status' => ['type' => 'string', 'enum' => SpecsDocument::STATUSES, 'description' => 'Optional: Neuer Status.'],
                 'linked_document_id' => ['type' => 'integer', 'description' => 'Optional: Verknuepftes Dokument.'],
                 'is_public' => ['type' => 'boolean', 'description' => 'Optional: Public-Link aktivieren/deaktivieren.'],
+                'entity_id' => ['type' => 'integer', 'description' => 'Optional: ID einer Organisations-Entity, mit der das Dokument verknuepft werden soll. Nutze "organization.entities.GET" um Entity-IDs zu finden.'],
             ],
             'required' => ['document_id'],
         ]);
@@ -71,6 +72,25 @@ class UpdateDocumentTool implements ToolContract, ToolMetadataContract
 
             if (!empty($updateData)) {
                 $doc->update($updateData);
+            }
+
+            // Entity-Link erstellen/aktualisieren (falls entity_id angegeben)
+            if (!empty($arguments['entity_id'])) {
+                $entity = \Platform\Organization\Models\OrganizationEntity::find($arguments['entity_id']);
+                if ($entity) {
+                    // Alte Links entfernen und neuen erstellen
+                    \Platform\Organization\Models\OrganizationEntityLink::where('linkable_type', 'specs_document')
+                        ->where('linkable_id', $doc->id)
+                        ->delete();
+
+                    \Platform\Organization\Models\OrganizationEntityLink::create([
+                        'entity_id' => $entity->id,
+                        'linkable_type' => 'specs_document',
+                        'linkable_id' => $doc->id,
+                        'team_id' => $teamId,
+                        'created_by_user_id' => $context->user->id,
+                    ]);
+                }
             }
 
             $doc->refresh();

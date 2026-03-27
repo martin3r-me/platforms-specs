@@ -25,9 +25,20 @@ class Dashboard extends Component
             ->pluck('count', 'status')
             ->toArray();
 
+        $typeCounts = SpecsDocument::query()
+            ->forTeam($teamId)
+            ->selectRaw('document_type, count(*) as count')
+            ->groupBy('document_type')
+            ->pluck('count', 'document_type')
+            ->toArray();
+
+        $totalDocuments = array_sum($statusCounts);
+
         return view('specs::livewire.dashboard', [
             'documents' => $documents,
             'statusCounts' => $statusCounts,
+            'typeCounts' => $typeCounts,
+            'totalDocuments' => $totalDocuments,
         ])->layout('platform::layouts.app');
     }
 }
