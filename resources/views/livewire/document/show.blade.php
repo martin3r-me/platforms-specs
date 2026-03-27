@@ -32,6 +32,26 @@
                     </span>
                 @endif
             </x-slot>
+
+            {{-- Rechts: Sub-Navigation --}}
+            <a href="{{ route('specs.documents.requirements', $document) }}">
+                <x-ui-button variant="ghost" size="sm">
+                    @svg('heroicon-o-clipboard-document-list', 'w-4 h-4')
+                    <span>Anforderungen ({{ $requirementCount }})</span>
+                </x-ui-button>
+            </a>
+            <a href="{{ route('specs.documents.traces', $document) }}">
+                <x-ui-button variant="ghost" size="sm">
+                    @svg('heroicon-o-arrows-right-left', 'w-4 h-4')
+                    <span>Traces</span>
+                </x-ui-button>
+            </a>
+            <a href="{{ route('specs.documents.snapshots', $document) }}">
+                <x-ui-button variant="ghost" size="sm">
+                    @svg('heroicon-o-camera', 'w-4 h-4')
+                    <span>Snapshots</span>
+                </x-ui-button>
+            </a>
         </x-ui-page-actionbar>
     </x-slot>
 

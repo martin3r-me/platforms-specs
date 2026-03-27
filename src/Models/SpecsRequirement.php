@@ -27,6 +27,8 @@ class SpecsRequirement extends Model
         self::TYPE_USE_CASE,
     ];
 
+    public const TYPES = self::REQUIREMENT_TYPES;
+
     public const TYPE_LABELS = [
         self::TYPE_FUNCTIONAL => 'Funktionale Anforderung',
         self::TYPE_NON_FUNCTIONAL => 'Nicht-funktionale Anforderung',
