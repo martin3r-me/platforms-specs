@@ -153,11 +153,12 @@ class SpecsDocument extends Model
     }
 
     /**
-     * Entity-Links (OrganizationEntityLink) über morphMany
+     * @deprecated Use EntityDimensionBridge::linksForLinkables() instead.
+     * Entity-Links über DimensionLinks (entity dimension).
      */
     public function entityLinks(): MorphMany
     {
-        return $this->morphMany(\Platform\Organization\Models\OrganizationEntityLink::class, 'linkable');
+        return $this->morphMany(\Platform\Organization\Models\OrganizationDimensionLink::class, 'linkable');
     }
 
     // Scopes

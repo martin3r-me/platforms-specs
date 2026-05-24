@@ -6,7 +6,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Platform\Specs\Models\SpecsDocument;
 use Platform\Organization\Models\OrganizationContext;
-use Platform\Organization\Models\OrganizationEntityLink;
+use Platform\Organization\Services\EntityDimensionBridge;
 use Platform\Organization\Models\OrganizationEntity;
 use Livewire\Attributes\On;
 
@@ -85,12 +85,8 @@ class Sidebar extends Component
             }
         }
 
-        // b) OrganizationEntityLink
-        $entityLinks = OrganizationEntityLink::query()
-            ->whereIn('linkable_type', $contextMorphTypes)
-            ->whereIn('linkable_id', $documentIds)
-            ->with(['entity.type'])
-            ->get();
+        // b) DimensionLink entity dimension
+        $entityLinks = EntityDimensionBridge::linksForLinkables($contextMorphTypes, $documentIds);
 
         foreach ($entityLinks as $link) {
             $entityId = $link->entity_id;

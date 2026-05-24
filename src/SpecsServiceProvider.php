@@ -38,6 +38,7 @@ class SpecsServiceProvider extends ServiceProvider
             PlatformCore::registerModule([
                 'key' => 'specs',
                 'title' => 'Specs',
+                'group' => 'planning',
                 'routing' => config('specs.routing'),
                 'guard' => config('specs.guard'),
                 'navigation' => config('specs.navigation'),

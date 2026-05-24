@@ -77,13 +77,12 @@ class CreateDocumentTool implements ToolContract, ToolMetadataContract
             if (!empty($arguments['entity_id'])) {
                 $entity = \Platform\Organization\Models\OrganizationEntity::find($arguments['entity_id']);
                 if ($entity) {
-                    \Platform\Organization\Models\OrganizationEntityLink::create([
-                        'entity_id' => $entity->id,
-                        'linkable_type' => 'specs_document',
-                        'linkable_id' => $doc->id,
-                        'team_id' => $teamId,
-                        'created_by_user_id' => $context->user->id,
-                    ]);
+                    \Platform\Organization\Services\EntityDimensionBridge::createLink(
+                        $entity->id,
+                        'specs_document',
+                        $doc->id,
+                        ['team_id' => $teamId, 'created_by_user_id' => $context->user->id]
+                    );
                 }
             }
 

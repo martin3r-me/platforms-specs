@@ -78,18 +78,12 @@ class UpdateDocumentTool implements ToolContract, ToolMetadataContract
             if (!empty($arguments['entity_id'])) {
                 $entity = \Platform\Organization\Models\OrganizationEntity::find($arguments['entity_id']);
                 if ($entity) {
-                    // Alte Links entfernen und neuen erstellen
-                    \Platform\Organization\Models\OrganizationEntityLink::where('linkable_type', 'specs_document')
-                        ->where('linkable_id', $doc->id)
-                        ->delete();
-
-                    \Platform\Organization\Models\OrganizationEntityLink::create([
-                        'entity_id' => $entity->id,
-                        'linkable_type' => 'specs_document',
-                        'linkable_id' => $doc->id,
-                        'team_id' => $teamId,
-                        'created_by_user_id' => $context->user->id,
-                    ]);
+                    \Platform\Organization\Services\EntityDimensionBridge::replaceLinks(
+                        'specs_document',
+                        $doc->id,
+                        $entity->id,
+                        ['team_id' => $teamId, 'created_by_user_id' => $context->user->id]
+                    );
                 }
             }
 
