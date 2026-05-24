@@ -5,7 +5,6 @@ namespace Platform\Specs\Livewire;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Platform\Specs\Models\SpecsDocument;
-use Platform\Organization\Models\OrganizationContext;
 use Platform\Organization\Services\EntityDimensionBridge;
 use Platform\Organization\Models\OrganizationEntity;
 use Livewire\Attributes\On;
@@ -68,24 +67,6 @@ class Sidebar extends Component
 
         $contextMorphTypes = ['specs_document', SpecsDocument::class];
 
-        // a) OrganizationContext
-        $contexts = OrganizationContext::query()
-            ->whereIn('contextable_type', $contextMorphTypes)
-            ->whereIn('contextable_id', $documentIds)
-            ->where('is_active', true)
-            ->with(['organizationEntity.type'])
-            ->get();
-
-        foreach ($contexts as $ctx) {
-            $entityId = $ctx->organization_entity_id;
-            $documentId = $ctx->contextable_id;
-            if ($entityId) {
-                $entityDocumentMap[$entityId][] = $documentId;
-                $linkedDocumentIds[] = $documentId;
-            }
-        }
-
-        // b) DimensionLink entity dimension
         $entityLinks = EntityDimensionBridge::linksForLinkables($contextMorphTypes, $documentIds);
 
         foreach ($entityLinks as $link) {
