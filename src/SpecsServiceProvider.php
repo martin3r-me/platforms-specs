@@ -4,7 +4,6 @@ namespace Platform\Specs;
 
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Livewire\Livewire;
 use Platform\Core\PlatformCore;
@@ -33,7 +32,7 @@ class SpecsServiceProvider extends ServiceProvider
         if (
             config()->has('specs.routing') &&
             config()->has('specs.navigation') &&
-            Schema::hasTable('modules')
+            PlatformCore::modulesTableExists()
         ) {
             PlatformCore::registerModule([
                 'key' => 'specs',
