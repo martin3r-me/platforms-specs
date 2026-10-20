@@ -5,15 +5,13 @@ namespace Platform\Specs\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Platform\ActivityLog\Traits\LogsActivity;
-use Platform\Organization\Traits\HasOrganizationContexts;
 use Symfony\Component\Uid\UuidV7;
 
 class SpecsDocument extends Model
 {
-    use LogsActivity, SoftDeletes, HasOrganizationContexts;
+    use LogsActivity, SoftDeletes;
 
     // Status-Konstanten (Funnel-Reihenfolge)
     public const STATUS_BACKLOG = 'backlog';
@@ -150,15 +148,6 @@ class SpecsDocument extends Model
     public function snapshots(): HasMany
     {
         return $this->hasMany(SpecsDocumentSnapshot::class, 'document_id')->orderBy('version', 'desc');
-    }
-
-    /**
-     * @deprecated Use EntityDimensionBridge::linksForLinkables() instead.
-     * Kept for rollback compatibility — callers should migrate to EntityDimensionBridge.
-     */
-    public function entityLinks(): MorphMany
-    {
-        return $this->morphMany(\Platform\Organization\Models\OrganizationEntityLink::class, 'linkable');
     }
 
     // Scopes
